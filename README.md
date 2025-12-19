@@ -35,7 +35,6 @@ One Tap News, Flutter ile geliştirilmiş kapsamlı bir haber toplama mobil uygu
 ### Frontend / Arayüz
 - **Flutter** - Cross-platform mobile development framework
 - **Dart** - Programming language
-- **BLoC Pattern** - State management architecture (flutter_bloc)
 - **Material Design** - UI/UX design system
 
 ### Backend & Services / Backend ve Servisler
@@ -67,7 +66,7 @@ One Tap News, Flutter ile geliştirilmiş kapsamlı bir haber toplama mobil uygu
 ### 1. Clone the Repository / Depoyu Klonlayın
 
 ```bash
-git clone https://github.com/yourusername/ot_news.git
+git clone https://github.com/hevalvural007/ot_news.git
 cd ot_news
 ```
 
