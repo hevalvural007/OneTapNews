@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "930111941306",
+    "project_id": "one-tap-news-cf210",
+    "storage_bucket": "one-tap-news-cf210.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930111941306:android:66720ba0fbcb5b6de27083",
+        "android_client_info": {
+          "package_name": "com.example.ot_news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930111941306-jg38bm4j9frtsc7o5n5niceucdfd1rdc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs0uM5KwfggJ2BaQ9yVpxUk6-Z98K2Z94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930111941306-jg38bm4j9frtsc7o5n5niceucdfd1rdc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "930111941306-o7jujpbm4pba4h7ndjt4ancprlvrohhl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.oneTapNews"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
