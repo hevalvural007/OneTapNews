@@ -1,11 +1,9 @@
-
-import 'package:dio/dio.dart' hide Response;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ot_news/data/entity/article.dart';
-import 'package:ot_news/ui/screens/tab_screen.dart';
+import 'package:ot_news/logic/controllers/request_controller.dart';
+import 'package:ot_news/ui/widgets/custom_future_builder.dart';
 
-import '../../data/entity/response.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,105 +13,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const String apiKey = String.fromEnvironment('API_KEY');
+  final RequestController _requestController = RequestController();
+  late Future<List<Article>> _techFuture;
+  late Future<List<Article>> _sportsFuture;
+  late Future<List<Article>> _financeFuture;
+  late Future<List<Article>> _politicFuture;
+  late Future<List<Article>> _musicFuture;
+  late Future<List<Article>> _generalFuture;
+  late Future<List<Article>> _turkishFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _techFuture = _requestController.uploadTopicArticles('technology');
+    _sportsFuture = _requestController.uploadTopicArticles('sports');
+    _financeFuture = _requestController.uploadTopicArticles('business');
+    _politicFuture = _requestController.uploadTopicArticles('politics');
+    _musicFuture = _requestController.uploadTopicArticles('music');
+    _generalFuture = _requestController.uploadArticles('en');
+    _turkishFuture = _requestController.uploadArticles('tr');
+  }
   
-  
-  List<Article> parseArticles(dynamic response){
-      return Response.fromJson(response).articles;
-  }
-
-  Future<List<Article>> uploadSportArticles() async {
-
-    final response = await Dio().get(
-      'https://newsapi.org/v2/top-headlines',
-      queryParameters: {
-        'language': 'en',
-        'category': 'sports',
-        'pageSize': 100,
-        'apiKey': apiKey,
-      },
-    );
-
-    return parseArticles(response.data);
-  }
-  Future<List<Article>> uploadFinanceArticles() async {
-
-    final response = await Dio().get(
-      'https://newsapi.org/v2/top-headlines',
-      queryParameters: {
-        'language': 'en',
-        'category': 'business',
-        'pageSize': 100,
-        'apiKey': apiKey,
-      },
-    );
-
-    return parseArticles(response.data);
-  }
-  Future<List<Article>> uploadGeneralArticles() async {
-
-    final response = await Dio().get(
-      'https://newsapi.org/v2/everything',
-      queryParameters: {
-        'q': 'news',
-        'language': 'en',
-        'sortBy': 'publishedAt',
-        'pageSize': 100,
-        'apiKey': apiKey,
-      },
-    );
-
-    return parseArticles(response.data);
-  }
-
-  Future<List<Article>> uploadTechArticles() async{
-
-    final response = await Dio().get(
-        'https://newsapi.org/v2/top-headlines',
-        queryParameters:{
-          'language': 'en',
-          'category': 'technology',
-          'pageSize': 100,
-          'apiKey': apiKey,
-        }
-    );
-    return parseArticles(response.data);
-  }
-Future<List<Article>> uploadPoliticArticles() async{
-
-    final response = await Dio().get('https://newsapi.org/v2/top-headlines',
-        queryParameters:{
-          'language': 'en',
-          'category': 'politics',
-          'pageSize': 100,
-          'apiKey': apiKey,
-        });
-    return parseArticles(response.data);
-}
-  Future<List<Article>> uploadTurkishArticles() async{
-
-    final response = await Dio().get('https://newsapi.org/v2/everything',
-        queryParameters:{
-          'q': 'news',
-          'language': 'tr',
-          'sortBy': 'publishedAt',
-          'pageSize': 100,
-          'apiKey': apiKey,
-        });
-    return parseArticles(response.data);
-  }
-  Future<List<Article>> uploadMusicArticles() async{
-
-    final response = await Dio().get('https://newsapi.org/v2/top-headlines',
-        queryParameters:{
-          'language': 'en',
-          'category': 'music',
-          'pageSize': 100,
-          'apiKey': apiKey,
-        });
-    return parseArticles(response.data);
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -152,120 +72,13 @@ Future<List<Article>> uploadPoliticArticles() async{
       ),
       body: TabBarView(
           children: [
-            FutureBuilder(future: uploadGeneralArticles(), builder: (context,snapshot){
-            if(snapshot.hasData){
-              var articles = snapshot.data;
-              return ListView.builder(itemCount: articles!.length,itemBuilder: (context,index){
-                var article = articles[index];
-
-                return TabScreen(article);
-              },);
-            }
-            else{
-              return Center(
-                child: CircularProgressIndicator(color: Colors.black54,strokeWidth: 3,),
-              );
-            }
-            }),
-
-
-            FutureBuilder(future: uploadSportArticles(), builder: (context,snapshot){
-              if(snapshot.hasData){
-                var articles = snapshot.data;
-                return ListView.builder(itemCount: articles!.length,itemBuilder: (context,index){
-                  var article = articles[index];
-
-                  return TabScreen(article);
-                },);
-              }
-              else{
-                return Center(
-                  child: CircularProgressIndicator(color: Colors.black54,strokeWidth: 3,),
-                );
-              }
-            }),
-
-
-            FutureBuilder(future: uploadFinanceArticles(), builder: (context,snapshot){
-            if(snapshot.hasData){
-              var articles = snapshot.data;
-              return ListView.builder(itemCount: articles!.length,itemBuilder: (context,index){
-                var article = articles[index];
-
-                return TabScreen(article);
-              },);
-            }
-            else{
-              return Center(
-                child: CircularProgressIndicator(color: Colors.black54,strokeWidth: 3,),
-              );
-            }
-            }),
-            FutureBuilder(future: uploadTechArticles(), builder: (context,snapshot){
-              if(snapshot.hasData){
-                var articles = snapshot.data;
-                return ListView.builder(itemCount: articles!.length,itemBuilder: (context,index){
-                  var article = articles[index];
-
-                  return TabScreen(article);
-
-
-                },);
-              }
-              else{
-                return Center(
-                  child: CircularProgressIndicator(color: Colors.black54,strokeWidth: 3,),
-                );
-              }
-            }),
-            FutureBuilder(future: uploadPoliticArticles(), builder: (context,snapshot){
-              if(snapshot.hasData){
-                var articles = snapshot.data;
-                return ListView.builder(itemCount: articles!.length,itemBuilder: (context,index){
-                  var article = articles[index];
-
-                  return TabScreen(article);
-
-                },);
-              }
-              else{
-                return Center(
-                  child: CircularProgressIndicator(color: Colors.black54,strokeWidth: 3,),
-                );
-              }
-            }),
-            FutureBuilder(future: uploadTurkishArticles(), builder: (context,snapshot){
-              if(snapshot.hasData){
-                var articles = snapshot.data;
-                return ListView.builder(itemCount: articles!.length,itemBuilder: (context,index){
-                  var article = articles[index];
-
-                  return TabScreen(article);
-
-                },);
-              }
-              else{
-                return Center(
-                  child: CircularProgressIndicator(color: Colors.black54,strokeWidth: 3,),
-                );
-              }
-            }),
-            FutureBuilder(future: uploadMusicArticles(), builder: (context,snapshot){
-              if(snapshot.hasData){
-                var articles = snapshot.data;
-                return ListView.builder(itemCount: articles!.length,itemBuilder: (context,index){
-                  var article = articles[index];
-
-                  return TabScreen(article);
-
-                },);
-              }
-              else{
-                return Center(
-                  child: CircularProgressIndicator(color: Colors.black54,strokeWidth: 3,),
-                );
-              }
-            }),
+            CustomFutureBuilder(articleFuture: _generalFuture),
+            CustomFutureBuilder(articleFuture: _sportsFuture),
+            CustomFutureBuilder(articleFuture: _financeFuture),
+            CustomFutureBuilder(articleFuture: _techFuture),
+            CustomFutureBuilder(articleFuture: _politicFuture),
+            CustomFutureBuilder(articleFuture: _turkishFuture),
+            CustomFutureBuilder(articleFuture: _musicFuture),
           ]
       ),
     ));

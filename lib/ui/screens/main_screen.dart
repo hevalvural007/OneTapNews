@@ -24,50 +24,53 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[selectedIndex],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Color(0xFFEB4A7B),
-            Color(0xFF5A2E98),
-          ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight
-
-          ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 10),
-          child: GNav(
-            color: Colors.white70,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.white.withOpacity(0.15),
-            gap: 8,
-            padding: EdgeInsets.all(16),
-
-            tabs: [
-              GButton(
-                icon: FontAwesomeIcons.house,
-                text: 'Home',
-              ),
-              GButton(
-                icon: FontAwesomeIcons.magnifyingGlass,
-                text: 'Search',
-              ),
-              GButton(
-                icon: FontAwesomeIcons.user,
-                text: 'Account',
-              ),
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Color(0xFFEB4A7B),
+              Color(0xFF5A2E98),
             ],
-            selectedIndex: selectedIndex,
-            onTabChange: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight
+        
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 7.5, vertical: 10),
+            child: GNav(
+              color: Colors.white70,
+              activeColor: Colors.white,
+              tabBackgroundColor: Colors.white.withOpacity(0.15),
+              gap: 8,
+              padding: EdgeInsets.all(16),
+        
+              tabs: [
+                GButton(
+                  icon: FontAwesomeIcons.house,
+                  text: 'Home',
+                ),
+                GButton(
+                  icon: FontAwesomeIcons.magnifyingGlass,
+                  text: 'Search',
+                ),
+                GButton(
+                  icon: FontAwesomeIcons.user,
+                  text: 'Account',
+                ),
+              ],
+              selectedIndex: selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+            ),
           ),
         ),
       ),

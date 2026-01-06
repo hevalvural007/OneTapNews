@@ -8,7 +8,6 @@ import 'package:ot_news/ui/screens/main_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  print("Api Key: ${const String.fromEnvironment('API_KEY')}");
 
   runApp(const MyApp());
 }

@@ -49,6 +49,11 @@ One Tap News, Flutter ile geliştirilmiş kapsamlı bir haber toplama mobil uygu
 - **Google Nav Bar** - Customizable bottom navigation bar
 - **URL Launcher** - Opening external links
 
+### Architecture Pattern / Mimari Desen
+- **Controller Pattern** - Business logic separated into controllers
+  - `LoginController` - Handles authentication flow and validation
+  - `RequestController` - Manages NewsAPI requests and data parsing
+
 ---
 
 ## 📋 Prerequisites / Ön Gereksinimler
@@ -190,18 +195,29 @@ lib/
 │       ├── article.dart
 │       ├── response.dart
 │       └── source.dart
+├── logic/
+│   └── controllers/        # Business logic controllers
+│       ├── login_controller.dart    # Authentication logic
+│       └── request_controller.dart  # News API requests
 ├── services/
 │   └── auth_service.dart   # Authentication service
 ├── ui/
-│   └── screens/            # UI screens
-│       ├── account_screen.dart
-│       ├── details_screen.dart
-│       ├── home_screen.dart
-│       ├── login_screen.dart
-│       ├── main_screen.dart
-│       ├── search_screen.dart
-│       ├── sign_in_screen.dart
-│       ├── sign_up_screen.dart
+│   ├── screens/            # UI screens
+│   │   ├── account_screen.dart
+│   │   ├── details_screen.dart
+│   │   ├── home_screen.dart
+│   │   ├── login_screen.dart
+│   │   ├── main_screen.dart
+│   │   ├── search_screen.dart
+│   │   ├── sign_in_screen.dart
+│   │   └── sign_up_screen.dart
+│   └── widgets/            # Reusable UI widgets
+│       ├── comment_input_area.dart
+│       ├── comment_list.dart
+│       ├── custom_future_builder.dart
+│       ├── custom_text_field.dart
+│       ├── custom_text_field_password.dart
+│       ├── info_card.dart
 │       └── tab_screen.dart
 ├── firebase_options.dart   # Firebase configuration
 └── main.dart               # App entry point
@@ -267,6 +283,8 @@ lib/
 - Make sure to configure Firebase properly before running
 - API key must be set before building the app
 - The app supports both Android and iOS platforms
+- The project follows a Controller pattern for business logic separation
+- Reusable widgets are organized in the `ui/widgets/` directory
 
 ---
 

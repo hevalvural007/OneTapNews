@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:dio/dio.dart' hide Response;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ot_news/ui/screens/tab_screen.dart';
+import 'package:ot_news/ui/widgets/tab_screen.dart';
 import '../../data/entity/response.dart';
 import '../../data/entity/article.dart';
 

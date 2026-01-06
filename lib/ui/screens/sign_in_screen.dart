@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ot_news/ui/screens/sign_up_screen.dart';
-import 'main_screen.dart';
-
-import '../../services/auth_service.dart';
+import 'package:ot_news/ui/widgets/custom_text_field.dart';
+import 'package:ot_news/ui/widgets/custom_text_field_password.dart';
+import '../../logic/controllers/login_controller.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
-
-
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -15,32 +13,28 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   bool isLoading = false;
-  var tfEmail = TextEditingController();
-  var tfPassword = TextEditingController();
 
-  final AuthService authService = AuthService();
-  void signIn() async{
-    final email = tfEmail.text.trim();
-    final password = tfPassword.text.trim();
+  final tfEmail = TextEditingController();
+  final tfPassword = TextEditingController();
 
+  final LoginController _loginController = LoginController();
+
+  void handleSignIn() async {
     setState(() {
       isLoading = true;
     });
 
-    final user = await authService.signIn(email, password);
-    if(!mounted) return;
+    await _loginController.signIn(
+        context,
+        tfEmail.text.trim(),
+        tfPassword.text.trim()
+    );
 
-    if(user != null){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainScreen()),(route) => false);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Login Successful"),backgroundColor: Colors.green,));
-    }
-    else{
+    if (mounted) {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Login Failed, check your email/password")));
     }
-
   }
 
   @override
@@ -65,7 +59,6 @@ class _SignInScreenState extends State<SignInScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 80),
-
               const Padding(
                 padding: EdgeInsets.only(left: 36),
                 child: Text(
@@ -76,9 +69,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-
               const SizedBox(height: 40),
-
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -87,7 +78,6 @@ class _SignInScreenState extends State<SignInScreen> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40))),
-
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       return SingleChildScrollView(
@@ -104,31 +94,12 @@ class _SignInScreenState extends State<SignInScreen> {
                                   const SizedBox(height: 80),
 
                                   // Email
-                                  TextField(
-                                    controller: tfEmail,
-                                    decoration: InputDecoration(
-                                      labelText: "Email",
-                                      prefixIcon: const Icon(Icons.email),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
+                                  CustomTextField(label: "Email", textEditingController: tfEmail, iconData: Icons.email),
 
                                   const SizedBox(height: 20),
 
                                   // Password
-                                  TextField(
-                                    controller: tfPassword,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      labelText: "Password",
-                                      prefixIcon: const Icon(Icons.lock),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
+                                  CustomTextFieldPassword(label: "Password", textEditingController: tfPassword),
 
                                   const SizedBox(height: 80),
 
@@ -143,13 +114,14 @@ class _SignInScreenState extends State<SignInScreen> {
                                           borderRadius: BorderRadius.circular(28),
                                         ),
                                       ),
-                                      onPressed: isLoading ? null : signIn,
-                                      child: !isLoading ? const Text("SIGN IN",
-                                          style: TextStyle(fontSize: 18)) : const SizedBox(
+                                      onPressed: isLoading ? null : handleSignIn,
+                                      child: !isLoading
+                                          ? const Text("SIGN IN", style: TextStyle(fontSize: 18))
+                                          : const SizedBox(
                                         height: 24,
                                         width: 24,
-                                        child: CircularProgressIndicator(color: Colors.black,strokeWidth: 3,),
-                                      ) ,
+                                        child: CircularProgressIndicator(color: Colors.black, strokeWidth: 3),
+                                      ),
                                     ),
                                   ),
 
@@ -171,7 +143,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                         Center(
                                           child: TextButton(
                                             onPressed: () {
-                                              !isLoading ? Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen())) : null;
+                                              if (!isLoading) {
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                                              }
                                             },
                                             child: const Text(
                                               "Sign Up",

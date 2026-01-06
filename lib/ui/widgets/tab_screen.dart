@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ot_news/data/entity/article.dart';
 
-import 'details_screen.dart';
+import '../screens/details_screen.dart';
 
 class TabScreen extends StatefulWidget {
   Article article;

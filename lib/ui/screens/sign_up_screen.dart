@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../services/auth_service.dart';
-import 'sign_in_screen.dart';
+import 'package:ot_news/ui/screens/sign_in_screen.dart';
+import 'package:ot_news/ui/widgets/custom_text_field.dart';
+import 'package:ot_news/ui/widgets/custom_text_field_password.dart';
+import '../../logic/controllers/login_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -10,48 +12,29 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  var tfUserName = TextEditingController();
-  var tfEmail = TextEditingController();
-  var tfPassword = TextEditingController();
-  var tfPasswordConfirm = TextEditingController();
+  final tfUserName = TextEditingController();
+  final tfEmail = TextEditingController();
+  final tfPassword = TextEditingController();
+  final tfPasswordConfirm = TextEditingController();
 
   bool isLoading = false;
 
-  final AuthService authService = AuthService();
+  final LoginController _loginController = LoginController();
 
-  void signUp() async{
-    final email = tfEmail.text.trim();
-    final password = tfPassword.text.trim();
-    final username = tfUserName.text.trim();
-    final confirmPassword = tfPasswordConfirm.text.trim();
-
+  void handleSignUp() async {
     setState(() {
       isLoading = true;
     });
 
+    await _loginController.signUp(
+      context,
+      tfUserName.text.trim(),
+      tfEmail.text.trim(),
+      tfPassword.text.trim(),
+      tfPasswordConfirm.text.trim(),
+    );
 
-    if(password != confirmPassword){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Passwords do not match")));
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
-    if(email.isEmpty || username.isEmpty || password.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Please Fill Every Input in the Form")));
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
-    final user = await authService.signUp(email, password, username);
-    if(!mounted) return;
-    if(user!=null){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("Account created! Pleaser Login"),backgroundColor: Colors.green));
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignInScreen()),(route) => false);
-    }
-    else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: const Text("An error occurred while creating the account, please try again")));
+    if (mounted) {
       setState(() {
         isLoading = false;
       });
@@ -80,7 +63,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 80),
-
               const Padding(
                 padding: EdgeInsets.only(left: 36),
                 child: Text(
@@ -91,9 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-
               const SizedBox(height: 40),
-
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -102,7 +82,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(40),
                           topRight: Radius.circular(40))),
-
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       return SingleChildScrollView(
@@ -118,63 +97,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: [
                                   const SizedBox(height: 80),
 
-                                  TextField(
-                                    controller: tfUserName,
-                                    decoration: InputDecoration(
-                                      labelText: "Username",
-                                      prefixIcon: const Icon(Icons.person),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-
+                                  CustomTextField(label: "Username", textEditingController: tfUserName, iconData: Icons.person),
                                   const SizedBox(height: 20),
 
-
-                                  // Email
-                                  TextField(
-                                    controller: tfEmail,
-                                    decoration: InputDecoration(
-                                      labelText: "Email",
-                                      prefixIcon: const Icon(Icons.email),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-
+                                  CustomTextField(label: "Email", textEditingController: tfEmail, iconData: Icons.email),
                                   const SizedBox(height: 20),
 
-                                  // Password
-                                  TextField(
-                                    controller: tfPassword,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      labelText: "Password",
-                                      prefixIcon: const Icon(Icons.lock),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-
+                                  CustomTextFieldPassword(label: "Password", textEditingController: tfPassword),
                                   const SizedBox(height: 20),
 
-                                  // Confirm Password
-                                  TextField(
-                                    controller: tfPasswordConfirm,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      labelText: "Confirm Password",
-                                      prefixIcon: const Icon(Icons.lock),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                  ),
-
-
+                                  CustomTextFieldPassword(label: "Confirm Password", textEditingController: tfPasswordConfirm),
                                   const SizedBox(height: 80),
 
                                   SizedBox(
@@ -188,12 +120,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           borderRadius: BorderRadius.circular(28),
                                         ),
                                       ),
-                                      onPressed: isLoading ? null : signUp,
-                                      child: !isLoading ? const Text("SIGN UP",
-                                          style: TextStyle(fontSize: 18)) : const SizedBox(
+                                      onPressed: isLoading ? null : handleSignUp,
+                                      child: !isLoading
+                                          ? const Text("SIGN UP", style: TextStyle(fontSize: 18))
+                                          : const SizedBox(
                                         width: 24,
                                         height: 24,
-                                        child: CircularProgressIndicator(color: Colors.black,),
+                                        child: CircularProgressIndicator(color: Colors.black),
                                       ),
                                     ),
                                   ),
@@ -216,7 +149,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         Center(
                                           child: TextButton(
                                             onPressed: () {
-                                              !isLoading ? Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen())) : null;
+                                              if (!isLoading) {
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInScreen()));
+                                              }
                                             },
                                             child: const Text(
                                               "Sign In",

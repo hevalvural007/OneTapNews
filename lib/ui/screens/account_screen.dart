@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ot_news/services/auth_service.dart';
 import 'package:ot_news/ui/screens/login_screen.dart';
+import 'package:ot_news/ui/widgets/info_card.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -179,12 +180,12 @@ class _AccountScreenState extends State<AccountScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
-                      _buildInfoCard(
+                      InfoCard(
                           icon: Icons.email_outlined,
                           title: "E-mail Address",
                           value: email),
                       const SizedBox(height: 15),
-                      _buildInfoCard(
+                      InfoCard(
                           icon: Icons.calendar_month_outlined,
                           title: "Created At",
                           value: joinedDate),
@@ -329,59 +330,6 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildInfoCard(
-      {required IconData icon, required String title, required String value}) {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, color: primaryColor),
-          ),
-          const SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: Colors.grey[500],
-                  fontSize: 12,
-                ),
-              ),
-
-              const SizedBox(height: 4),
-              Text(
-                value,
-                style: TextStyle(
-                  color: Colors.blueGrey[800],
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
