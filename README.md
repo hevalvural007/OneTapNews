@@ -296,21 +296,7 @@ Katkılarınızı bekliyoruz! Lütfen bir Pull Request göndermekten çekinmeyin
 
 ---
 
-## 📄 License / Lisans
 
-This project is open source and available under the [MIT License](LICENSE).
-
-Bu proje açık kaynaklıdır ve [MIT Lisansı](LICENSE) altında mevcuttur.
-
----
-
-## 👨‍💻 Author / Yazar
-
-Developed with ❤️ using Flutter by Heval Vural
-
-Flutter ile ❤️ ile geliştirilmiştir by Heval Vural
-
----
 
 ## 🔗 Links / Bağlantılar
 
