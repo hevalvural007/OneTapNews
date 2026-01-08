@@ -1,4 +1,5 @@
 # One Tap News 📰
+website link: https://onetapnews.netlify.app/
 
 A modern Flutter news application that aggregates news from various categories including Sports, Finance, Technology, Politics, Turkish News, and Music. Built with Firebase authentication and NewsAPI integration.
 
