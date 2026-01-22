@@ -1,4 +1,5 @@
 # One Tap News 📰
+website link: https://onetapnews.netlify.app/
 
 A modern Flutter news application that aggregates news from various categories including Sports, Finance, Technology, Politics, Turkish News, and Music. Built with Firebase authentication and NewsAPI integration.
 
@@ -296,21 +297,7 @@ Katkılarınızı bekliyoruz! Lütfen bir Pull Request göndermekten çekinmeyin
 
 ---
 
-## 📄 License / Lisans
 
-This project is open source and available under the [MIT License](LICENSE).
-
-Bu proje açık kaynaklıdır ve [MIT Lisansı](LICENSE) altında mevcuttur.
-
----
-
-## 👨‍💻 Author / Yazar
-
-Developed with ❤️ using Flutter by Heval Vural
-
-Flutter ile ❤️ ile geliştirilmiştir by Heval Vural
-
----
 
 ## 🔗 Links / Bağlantılar
 
