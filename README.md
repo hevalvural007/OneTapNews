@@ -72,8 +72,8 @@ One Tap News, Flutter ile geliştirilmiş kapsamlı bir haber toplama mobil uygu
 ### 1. Clone the Repository / Depoyu Klonlayın
 
 ```bash
-git clone https://github.com/hevalvural007/ot_news.git
-cd ot_news
+git clone https://github.com/hevalvural007/OneTapNews.git
+cd OneTapNews
 ```
 
 ### 2. Install Dependencies / Bağımlılıkları Yükleyin
